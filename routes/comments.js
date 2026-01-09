@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
@@ -27,6 +28,9 @@ router.post('/', async (req, res) => {
         const savedComment = await comment.save();
         res.status(201).json(savedComment);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid post ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
@@ -39,6 +43,9 @@ router.get('/', async (req, res) => {
         const comments = await Comment.find(query).populate('post', 'title');
         res.json(comments);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid post ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
@@ -54,6 +61,9 @@ router.get('/:id', async (req, res) => {
 
         res.json(comment);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid comment ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
@@ -74,6 +84,9 @@ router.put('/:id', async (req, res) => {
 
         res.json(comment);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid comment ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
@@ -89,9 +102,11 @@ router.delete('/:id', async (req, res) => {
 
         res.json({ message: 'Comment deleted successfully', comment });
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid comment ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
 
 module.exports = router;
-

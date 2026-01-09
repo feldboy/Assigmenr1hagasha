@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Post = require('../models/post');
 
 // 1. Add a New Post
@@ -47,6 +48,9 @@ router.get('/:id', async (req, res) => {
 
         res.json(post);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid post ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
@@ -67,6 +71,9 @@ router.put('/:id', async (req, res) => {
 
         res.json(post);
     } catch (error) {
+        if (error instanceof mongoose.Error.CastError) {
+            return res.status(400).json({ error: 'Invalid post ID format' });
+        }
         res.status(500).json({ error: error.message });
     }
 });
