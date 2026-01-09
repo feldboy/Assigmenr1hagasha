@@ -24,10 +24,12 @@ router.post('/', async (req, res) => {
     }
 });
 
-// 2. Get All Posts
+// 2. Get All Posts (optionally filtered by sender)
 router.get('/', async (req, res) => {
     try {
-        const posts = await Post.find();
+        const { sender } = req.query;
+        const query = sender ? { sender } : {};
+        const posts = await Post.find(query);
         res.json(posts);
     } catch (error) {
         res.status(500).json({ error: error.message });
