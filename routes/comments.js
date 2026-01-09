@@ -7,20 +7,20 @@ const Post = require('../models/post');
 // 1. Create a New Comment
 router.post('/', async (req, res) => {
     try {
-        const { post, content, sender } = req.body;
+        const { postId, content, sender } = req.body;
 
-        if (!post || !content || !sender) {
+        if (!postId || !content || !sender) {
             return res.status(400).json({ error: 'Post ID, content, and sender are required' });
         }
 
         // Verify that the post exists
-        const postExists = await Post.findById(post);
+        const postExists = await Post.findById(postId);
         if (!postExists) {
             return res.status(404).json({ error: 'Post not found' });
         }
 
         const comment = new Comment({
-            post,
+            post: postId,
             content,
             sender
         });
@@ -35,11 +35,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-// 2. Get All Comments (optionally filtered by post)
+// 2. Get All Comments (optionally filtered by postId)
 router.get('/', async (req, res) => {
     try {
-        const { post } = req.query;
-        const query = post ? { post } : {};
+        const { postId } = req.query;
+        const query = postId ? { post: postId } : {};
         const comments = await Comment.find(query).populate('post', 'title');
         res.json(comments);
     } catch (error) {
