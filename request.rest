@@ -17,7 +17,69 @@ GET http://localhost:3000/post
 
 ###
 
-## 3. Get a Post by ID
+## 3. Get Posts by Sender
+GET http://localhost:3000/post?sender=user123
+
+###
+
+## 4. Get a Post by ID
 GET http://localhost:3000/post/REPLACE_WITH_POST_ID
+
+###
+
+## 5. Update a Post
+PUT http://localhost:3000/post/REPLACE_WITH_POST_ID
+Content-Type: application/json
+
+{
+    "title": "Updated Post Title",
+    "content": "Updated content of the post",
+    "sender": "user123"
+}
+
+###
+
+### Comments API
+
+## 1. Create a New Comment
+POST http://localhost:3000/comment
+Content-Type: application/json
+
+{
+    "post": "REPLACE_WITH_POST_ID",
+    "content": "This is a comment on the post",
+    "sender": "user456"
+}
+
+###
+
+## 2. Get All Comments
+GET http://localhost:3000/comment
+
+###
+
+## 3. Get Comments by Post
+GET http://localhost:3000/comment?post=REPLACE_WITH_POST_ID
+
+###
+
+## 4. Get a Comment by ID
+GET http://localhost:3000/comment/REPLACE_WITH_COMMENT_ID
+
+###
+
+## 5. Update a Comment
+PUT http://localhost:3000/comment/REPLACE_WITH_COMMENT_ID
+Content-Type: application/json
+
+{
+    "content": "Updated comment content",
+    "sender": "user456"
+}
+
+###
+
+## 6. Delete a Comment
+DELETE http://localhost:3000/comment/REPLACE_WITH_COMMENT_ID
 
 ###
