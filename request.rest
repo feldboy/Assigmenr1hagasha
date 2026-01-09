@@ -1,0 +1,23 @@
+### Posts API
+
+## 1. Add a New Post
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post",
+    "sender": "user123"
+}
+
+###
+
+## 2. Get All Posts
+GET http://localhost:3000/post
+
+###
+
+## 3. Get a Post by ID
+GET http://localhost:3000/post/REPLACE_WITH_POST_ID
+
+###
