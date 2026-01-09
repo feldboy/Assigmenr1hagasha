@@ -51,4 +51,24 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// 4. Update a Post
+router.put('/:id', async (req, res) => {
+    try {
+        const { title, content, sender } = req.body;
+        const post = await Post.findByIdAndUpdate(
+            req.params.id,
+            { title, content, sender },
+            { new: true, runValidators: true }
+        );
+
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        res.json(post);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;
